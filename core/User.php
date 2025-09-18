@@ -19,7 +19,15 @@ class User {
             return false;
         }
     }
-
+    
+    // Get User by ID
+    public function getUserById($id) {
+        $this->db->query('SELECT * FROM users WHERE id = :id');
+        $this->db->bind(':id', $id);
+        $row = $this->db->single();
+        return $row;
+    }
+        
     // Register User
     public function register($data) {
         $this->db->query('INSERT INTO users (full_name, email, password, age, profile_picture) VALUES(:full_name, :email, :password, :age, :profile_picture)');
