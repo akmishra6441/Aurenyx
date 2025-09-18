@@ -32,11 +32,30 @@ $posts = $postObj->getPostsByUserId($_SESSION['user_id']);
 <body>
     <div class="container">
         <div class="profile-card">
-            <img src="uploads/profiles/<?php echo htmlspecialchars($currentUser->profile_picture); ?>" alt="Profile Picture" class="profile-pic">
-            <h3><?php echo htmlspecialchars($currentUser->full_name); ?></h3>
-            <p><?php echo htmlspecialchars($currentUser->email); ?></p>
-            <a href="logout.php" class="logout-btn">Logout</a>
+    <div class="profile-pic-container">
+        <img src="uploads/profiles/<?php echo htmlspecialchars($currentUser->profile_picture); ?>" alt="Profile Picture" class="profile-pic" id="profile-pic-display">
+        <form id="profile-pic-form" style="display:none;">
+            <input type="file" name="new_profile_picture" id="new_profile_picture" accept="image/*">
+        </form>
+        <button id="change-pic-btn" class="change-pic-btn">Change</button>
+    </div>
+
+    <div class="profile-info">
+        <div class="info-item" id="name-container">
+            <span id="name-display"><?php echo htmlspecialchars($currentUser->full_name); ?></span>
+            <input type="text" id="name-input" value="<?php echo htmlspecialchars($currentUser->full_name); ?>" class="edit-input">
+            <span class="edit-icon">✏️</span>
         </div>
+        <p class="email-display"><?php echo htmlspecialchars($currentUser->email); ?> <span class="lock-icon">🔒</span></p>
+         <div class="info-item" id="age-container">
+            <span id="age-display"><?php echo htmlspecialchars($currentUser->age); ?> years old</span>
+            <input type="number" id="age-input" value="<?php echo htmlspecialchars($currentUser->age); ?>" class="edit-input">
+            <span class="edit-icon">✏️</span>
+        </div>
+    </div>
+    
+    <a href="logout.php" class="logout-btn">Logout</a>
+</div>
 
         <div class="posts-section">
             <div class="add-post-box">
