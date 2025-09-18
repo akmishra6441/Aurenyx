@@ -63,3 +63,72 @@ $(document).ready(function() {
         });
     });
 });
+
+
+
+function handleInlineEdit(displayId, inputId, fieldName) {
+    const displayElement = $('#' + displayId);
+    const inputElement = $('#' + inputId);
+    const container = displayElement.closest('.info-item');
+
+    container.on('click', '.edit-icon', function() {
+        displayElement.hide();
+        inputElement.show().focus();
+    });
+
+    inputElement.on('blur keypress', function(e) {
+        if (e.type === 'blur' || e.which === 13) { // 13 is the Enter key
+            const newValue = $(this).val();
+            displayElement.show();
+            inputElement.hide();
+
+            // AJAX call to update the data
+            $.ajax({
+                url: 'core/handle_profile.php?action=update_details',
+                type: 'POST',
+                data: { field: fieldName, value: newValue },
+                success: function(response) {
+                    // Update the display text
+                    if(fieldName === 'age') {
+                        displayElement.text(newValue + ' years old');
+                    } else {
+                        displayElement.text(newValue);
+                    }
+                },
+                error: function() { alert('Error updating profile.'); }
+            });
+        }
+    });
+}
+
+handleInlineEdit('name-display', 'name-input', 'full_name');
+handleInlineEdit('age-display', 'age-input', 'age');
+
+// Handle profile picture change
+$('#change-pic-btn').on('click', function() {
+    $('#new_profile_picture').click(); // Trigger the hidden file input
+});
+
+$('#new_profile_picture').on('change', function() {
+    var formData = new FormData();
+    formData.append('new_profile_picture', $(this)[0].files[0]);
+
+    $.ajax({
+        url: 'core/handle_profile.php?action=update_picture',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType: 'json',
+        success: function(response) {
+            if(response.success) {
+                // Update the profile picture on the page
+                const newPicUrl = 'uploads/profiles/' + response.filename + '?t=' + new Date().getTime();
+                $('#profile-pic-display').attr('src', newPicUrl);
+            } else {
+                alert(response.error);
+            }
+        },
+        error: function() { alert('Error uploading picture.'); }
+    });
+});
