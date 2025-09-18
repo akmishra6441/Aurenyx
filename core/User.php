@@ -27,7 +27,7 @@ class User {
         $row = $this->db->single();
         return $row;
     }
-        
+
     // Register User
     public function register($data) {
         $this->db->query('INSERT INTO users (full_name, email, password, age, profile_picture) VALUES(:full_name, :email, :password, :age, :profile_picture)');
@@ -61,4 +61,24 @@ class User {
             return false; // Return false on failure
         }
     }
+
+    public function updateProfile($data) {
+    $this->db->query('UPDATE users SET full_name = :full_name, age = :age WHERE id = :id');
+    // Bind values
+    $this->db->bind(':full_name', $data['full_name']);
+    $this->db->bind(':age', $data['age']);
+    $this->db->bind(':id', $data['user_id']);
+
+    return $this->db->execute();
+}
+
+// Update Profile Picture
+public function updateProfilePicture($user_id, $filename) {
+    $this->db->query('UPDATE users SET profile_picture = :profile_picture WHERE id = :id');
+    $this->db->bind(':profile_picture', $filename);
+    $this->db->bind(':id', $user_id);
+
+    return $this->db->execute();
+}
+
 }
