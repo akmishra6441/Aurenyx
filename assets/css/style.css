@@ -103,3 +103,39 @@ body {
     border-radius: 10px;
     margin-top: 15px;
 }
+
+.post-header {
+    position: relative;
+}
+
+.delete-post-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #aaa;
+}
+.delete-post-btn:hover {
+    color: #333;
+}
+
+.post-actions {
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+    display: flex;
+    gap: 10px;
+}
+.post-actions button {
+    background: #f0f2f5;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.post-actions button:hover {
+    background: #e4e6eb;
+}
