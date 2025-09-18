@@ -11,12 +11,14 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-// Fetch logged-in user's data
+// Instantiate objects
 $userObj = new User();
+$postObj = new Post();
+
+// Fetch logged-in user's data
 $currentUser = $userObj->getUserById($_SESSION['user_id']);
 
 // Fetch user's posts
-$postObj = new Post();
 $posts = $postObj->getPostsByUserId($_SESSION['user_id']);
 ?>
 <!DOCTYPE html>
@@ -50,6 +52,7 @@ $posts = $postObj->getPostsByUserId($_SESSION['user_id']);
             <div id="posts-container">
                 <?php if (!empty($posts)): ?>
                     <?php foreach ($posts as $post): ?>
+                        <?php $counts = $postObj->getLikeDislikeCounts($post->id); ?>
                         <div class="post-item" id="post-<?php echo $post->id; ?>">
                             <div class="post-header">
                                 <img src="uploads/profiles/<?php echo htmlspecialchars($post->profile_picture); ?>" class="post-author-pic">
@@ -57,11 +60,20 @@ $posts = $postObj->getPostsByUserId($_SESSION['user_id']);
                                     <strong><?php echo htmlspecialchars($post->full_name); ?></strong>
                                     <small>Posted on <?php echo date('d M Y', strtotime($post->created_at)); ?></small>
                                 </div>
+                                <button class="delete-post-btn" data-post-id="<?php echo $post->id; ?>">×</button>
                             </div>
                             <p class="post-content"><?php echo htmlspecialchars($post->description); ?></p>
                             <?php if ($post->image): ?>
                                 <img src="uploads/posts/<?php echo htmlspecialchars($post->image); ?>" class="post-image">
                             <?php endif; ?>
+                            <div class="post-actions">
+                                <button class="like-btn" data-post-id="<?php echo $post->id; ?>">
+                                    👍 Like <span class="like-count"><?php echo $counts['likes']; ?></span>
+                                </button>
+                                <button class="dislike-btn" data-post-id="<?php echo $post->id; ?>">
+                                    👎 Dislike <span class="dislike-count"><?php echo $counts['dislikes']; ?></span>
+                                </button>
+                            </div>
                         </div>
                     <?php endforeach; ?>
                 <?php else: ?>
