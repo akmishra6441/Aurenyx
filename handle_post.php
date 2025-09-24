@@ -13,9 +13,7 @@ $action = $_GET['action'] ?? '';
 $postObj = new Post();
 $user_id = $_SESSION['user_id'];
 
-// Handle Post Creation
 if ($action == 'create' && $_SERVER['REQUEST_METHOD'] == 'POST') {
-    // ... existing post creation code from Step 5 ...
     $userObj = new User();
     $currentUser = $userObj->getUserById($user_id);
     $data = ['user_id' => $user_id, 'description' => trim($_POST['description']), 'image' => ''];
@@ -32,8 +30,7 @@ if ($action == 'create' && $_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
     if ($postObj->createPost($data)) {
-        // Echo the HTML for the new post
-        $counts = $postObj->getLikeDislikeCounts(0); // This won't work perfectly, let's simplify
+        $counts = $postObj->getLikeDislikeCounts(0); 
         ?>
         <div class="post-item" id="post-new">
             <div class="post-header">
@@ -57,7 +54,6 @@ if ($action == 'create' && $_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "Error creating post.";
     }
 
-// Handle Post Deletion
 } elseif ($action == 'delete' && $_SERVER['REQUEST_METHOD'] == 'POST') {
     $post_id = $_POST['post_id'];
     if ($postObj->deletePost($post_id, $user_id)) {
@@ -67,7 +63,6 @@ if ($action == 'create' && $_SERVER['REQUEST_METHOD'] == 'POST') {
         echo 'Error deleting post.';
     }
 
-// Handle Like/Dislike Interaction
 } elseif ($action == 'interact' && $_SERVER['REQUEST_METHOD'] == 'POST') {
     $post_id = $_POST['post_id'];
     $action_type = $_POST['action_type']; // 'like' or 'dislike'
