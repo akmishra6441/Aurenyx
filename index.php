@@ -1,24 +1,19 @@
 <?php
-// Include core files and start session
 require_once 'core/config.php';
 require_once 'core/Database.php';
 require_once 'core/User.php';
 require_once 'core/Post.php';
 
-// Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit();
 }
 
-// Instantiate objects
 $userObj = new User();
 $postObj = new Post();
 
-// Fetch logged-in user's data
 $currentUser = $userObj->getUserById($_SESSION['user_id']);
 
-// Fetch user's posts
 $posts = $postObj->getPostsByUserId($_SESSION['user_id']);
 ?>
 <!DOCTYPE html>
