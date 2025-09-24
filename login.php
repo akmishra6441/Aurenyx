@@ -25,11 +25,9 @@
         <h2>Postify Login</h2>
 
         <?php
-            // Show success message from registration
             if (isset($_GET['status']) && $_GET['status'] == 'success') {
                 echo '<div class="message success">Registration successful! Please log in.</div>';
             }
-            // Show error message from failed login
             if (isset($_GET['error']) && $_GET['error'] == 'invalidcredentials') {
                 echo '<div class="message error">Invalid email or password.</div>';
             }
