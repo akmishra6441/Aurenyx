@@ -12,7 +12,6 @@ $action = $_GET['action'] ?? '';
 $userObj = new User();
 $user_id = $_SESSION['user_id'];
 
-// Handle updating text details (name, age)
 if ($action == 'update_details' && $_SERVER['REQUEST_METHOD'] == 'POST') {
     $currentUser = $userObj->getUserById($user_id);
     
@@ -36,7 +35,6 @@ if ($action == 'update_details' && $_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-// Handle updating the profile picture
 elseif ($action == 'update_picture' && $_SERVER['REQUEST_METHOD'] == 'POST') {
     $response = ['success' => false, 'error' => 'An unknown error occurred.'];
     if (isset($_FILES['new_profile_picture']) && $_FILES['new_profile_picture']['error'] == 0) {
